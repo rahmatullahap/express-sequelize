@@ -34,3 +34,5 @@ jobs:
           heroku_email: "rahmatullaharrizal@gmail.com"
           appdir: "dist"
           healthcheck: "https://express-seq.herokuapp.com/"
+          procfile: "npm start"
+          branch: "master"

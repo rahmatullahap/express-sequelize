@@ -29,13 +29,6 @@ export async function searchQuery(req, res): Promise<any> {
             'LIKE',
             `%${(args?.keyword || '').toLowerCase()}%`
           )
-        },
-        {
-          vip: where(
-            Sequelize.fn('LOWER', Sequelize.col('vip')),
-            'LIKE',
-            `%${(args?.keyword || '').toLowerCase()}%`
-          )
         }
       ]
     },
