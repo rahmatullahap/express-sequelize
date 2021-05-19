@@ -1,7 +1,7 @@
 import { verify } from 'jsonwebtoken';
 import { UserContext } from './user-context';
 import { config } from '../config';
-const { PROVIDER_SECRET } = config;
+const { app } = config;
 
 /**
  * Decode token and save the payload as user context
@@ -11,7 +11,7 @@ const { PROVIDER_SECRET } = config;
  * @returns {UserContext} token payload as user context
  */
 export function decodeToken(token: string): UserContext {
-  const payload: any = verify(token, PROVIDER_SECRET);
+  const payload: any = verify(token, app.providerSecret);
   if (!payload) {
     throw new Error('Invalid token');
   }
@@ -19,6 +19,8 @@ export function decodeToken(token: string): UserContext {
     throw new Error('Invalid token');
   }
   return {
-    accountId: payload.account_id
+    userid: payload.userid,
+    nama: payload.nama,
+    hakakses: payload.hakakses
   };
 }

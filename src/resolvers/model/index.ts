@@ -1,12 +1,12 @@
 import { Sequelize } from 'sequelize';
-import { defineGuestModel } from './guest';
+import { defineUserModel } from './user';
 
 /**
  * this will setup model and its relationship
  * @param db - sequalize instance
  */
 export function setupModels(db: Sequelize): void {
-  defineGuestModel(db);
+  defineUserModel(db);
 }
 
-export * from './guest';
+export * from './user';

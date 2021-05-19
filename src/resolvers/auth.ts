@@ -6,10 +6,10 @@ import bcrypt from 'bcrypt';
 import { createToken } from '../utils';
 import { createNodeLogger } from '../connectors/logger.node';
 
-const { PROVIDER_SECRET, LOG_LEVEL } = config;
+const { app, log } = config;
 const authRouter = Router();
 
-const logger = createNodeLogger(LOG_LEVEL);
+const logger = createNodeLogger(log.level);
 
 /**
  * get user token from http request
@@ -26,9 +26,11 @@ function getContextFromAuth(authHeader: string): UserContext {
   let ctx: UserContext = null;
 
   try {
-    const ver = jwt.verify(user_token, PROVIDER_SECRET);
+    const ver = jwt.verify(user_token, app.providerSecret);
     ctx = {
-      accountId: ver['accountId'],
+      userid: ver['userid'],
+      nama: ver['nama'],
+      hakakses: ver['hakakses']
     };
   } catch (err) {
     logger.error(err);
@@ -44,7 +46,7 @@ authRouter.get('/auth', async function(req, res) {
       throw 'Unauthorized';
     }
 
-    res.json('Hello ' + userContext.accountId);
+    res.json('Hello ' + userContext.nama);
   } catch (error) {
     res.status(401).json({
       message: error?.message || error
@@ -77,7 +79,7 @@ authRouter.post('/login', async function(req, res) {
         {
           account_id: '1'
         },
-        PROVIDER_SECRET
+        app.providerSecret
       );
       res.json({
         message: 'success',

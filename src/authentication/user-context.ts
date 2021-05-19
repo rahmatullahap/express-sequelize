@@ -1,3 +1,5 @@
+import { HakAkses } from '../resolvers/model';
+
 /**
  * Data structure used on access token & graphql user context
  * mainly to identify session statelessly
@@ -6,5 +8,7 @@
  * @interface UserContext
  */
 export interface UserContext {
-  accountId: string; // account username
+  userid: string; // account username
+  nama: string;
+  hakakses: HakAkses;
 }

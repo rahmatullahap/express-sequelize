@@ -11,16 +11,22 @@ type DebugLevel = 'trace' | 'debug' | 'info' | 'warn' | 'error' | 'fatal';
  * @interface Config
  */
 export interface Config {
-  LOG_LEVEL: DebugLevel;
-  APP_PORT: number;
-  TIMEZONE: string;
-  PROVIDER_SECRET: string;
-  MYSQL_HOST: string;
-  MYSQL_PORT: number;
-  MYSQL_DATABASE: string;
-  MYSQL_USERNAME: string;
-  MYSQL_PASSWORD: string;
+  log: {
+    level: DebugLevel;
+  };
+  app: {
+    timezone: string;
+    providerSecret: string;
+  };
+  mysql: {
+    host: string;
+    port: number;
+    database: string;
+    username: string;
+    password: string;
+  };
   httpServer: {
+    port: number;
     secure: boolean;
     allowedOrigins: string[];
     key?: string;
@@ -29,21 +35,27 @@ export interface Config {
 }
 
 export const configDefault: Config = {
-  LOG_LEVEL: 'error',
-  APP_PORT: 80,
-  TIMEZONE: '+07:00',
-  PROVIDER_SECRET: 'provider-secret',
-  MYSQL_HOST: 'localhost',
-  MYSQL_PORT: 3306,
-  MYSQL_DATABASE: 'mydatabase',
-  MYSQL_USERNAME: 'root',
-  MYSQL_PASSWORD: null,
+  log: {
+    level: 'error'
+  },
+  app: {
+    timezone: '+07:00',
+    providerSecret: 'provider-secret'
+  },
+  mysql: {
+    host: 'localhost',
+    port: 3306,
+    database: 'mydatabase',
+    username: 'root',
+    password: null
+  },
   httpServer: {
+    port: 80,
     secure: false,
     allowedOrigins: ['*'],
     key: 'server.key',
-    cert: 'server.crt',
-  },
+    cert: 'server.crt'
+  }
 };
 
 export const config = rc('api', configDefault) as Config;

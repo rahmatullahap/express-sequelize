@@ -1,6 +1,6 @@
 import { ILogger } from '../connectors/logger';
 import { Express } from 'express';
-import guestRouter from './guest';
+import userRouter from './user';
 import authRouter from './auth';
 
 
@@ -13,6 +13,6 @@ export class Api {
 
   init() {
     this.app.use('/', authRouter);
-    this.app.use('/guest', guestRouter);
+    this.app.use('/user', userRouter);
   }
 }

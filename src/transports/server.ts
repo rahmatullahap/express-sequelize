@@ -16,10 +16,10 @@ import { db as configDB } from '../lib';
 import { Api } from '../resolvers/routes';
 import { setupModels } from '../resolvers/model';
 
-const { APP_PORT, TIMEZONE, LOG_LEVEL, httpServer } = config;
+const { log, app, httpServer } = config;
 
 // set default timezone
-Settings.defaultZoneName = TIMEZONE;
+Settings.defaultZoneName = app.timezone;
 
 /**
  * Server to enable user to remotely execute graphql operations via http request & websocket connections
@@ -31,7 +31,7 @@ export class RestServer {
   private sequelize: Sequelize;
 
   constructor(private isProd = false) {
-    this.logger = createNodeLogger(LOG_LEVEL);
+    this.logger = createNodeLogger(log.level);
     this.app = express();
     this.app.options('*', cors());
     this.app.use(bodyParser.json());
@@ -88,11 +88,11 @@ export class RestServer {
       this.logger.error(err);
     }
 
-    this.server.listen(APP_PORT, () => {
+    this.server.listen(httpServer.port, () => {
       this.logger.info(
         '🚀 server is running at %s://localhost:%d',
         httpServer.secure ? 'https' : 'http',
-        APP_PORT
+        httpServer.port
       );
       this.logger.info('Press CTRL-C to stop\n');
     });
